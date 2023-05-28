@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komisi Arci</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Comic neue', sans-serif;
+            color: rgb(123, 110, 68);
+        }
+        body{
+            background: gray;
+            min-height: 100vh;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+        }
+        .container{
+            background-image: linear-gradient(to bottom, #9DD6FF, white);
+
+            width: 100vw;
+            max-width: 700px;
+            /* border: 1px solid magenta; */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            /* align-items: center; */
+        }
+        main{
+            display: flex;
+            position: absolute;
+            bottom: 0;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 60%;
+        }
+        .dialog{
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 200px;
+            position: relative;
+        }
+        .dialog .main{
+            background-color: #F5F0E1;
+            box-shadow: -5px 5px 10px rgba(0, 0, 0, .25);
+            /* border-radius: 10px 0 10px 10px; */
+            border-radius: 10px;
+            padding: 20px 20px 10px 40px;
+            position: relative;
+        }
+        .karakter{
+            width: 250px;
+            height: 250px;
+            background-image: url('senyum.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: -193px;
+            right: 10px;
+        }
+        .dialog .head{
+            font-size: 2rem;
+            text-transform: capitalize;
+            font-style: italic;
+            font-weight: bolder;
+            /* background-image: linear-gradient(to right,rgba(0,0,0,0.01),rgba(0, 0, 0, .05)); */
+            background: #957D3F;
+            color: white;
+            border-radius: 10px;
+            padding: 0 10px;
+            width: fit-content;
+        }
+
+        /* .dialog .main::after {
+    content: "";
+    position: absolute;
+    transition: all 0.3s ease-in;
+}
+
+.dialog .main::after {
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-right: -20px solid transparent;
+  border-left: 20px solid #F5F0E1;
+  right: -20px;
+  top: 0;
+} */
+        p.teks{
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .jawab{
+            font-size: 1rem;
+            margin: 10px;
+            background: #957D3F;
+            width: fit-content;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+        }
+        .jawab span.nama input{
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            outline: none;
+            border: none;
+        }
+        header{
+            height: 30%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('header.svg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            max-height: 500px;
+        }
+        header img{
+            width: 70%;
+            max-width: 250px;
+        }
+
+        .jawab.aktif::before{
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            /* background: magenta; */
+            position: absolute;
+            left: -25px;
+            background-image: url('pointer.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            transform: rotate(90deg);
+        }
+        .page{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 3;
+            background: gainsboro;
+            transform: scale(0);
+            transition: .2s ease-in-out;
+            overflow: scroll;
+        }
+        .page-aktif{
+            transform: scale(1);
+        }
+        .konten{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .konten img{
+            width: 100%;
+            height: 100%;
+            margin: 10px 0;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .page.sampel .konten{
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+            grid-auto-rows: 250px;
+            grid-auto-flow: dense;
+            padding: 10px;
+        }
+        .page.sampel .konten img.large{
+            grid-column: span 2;
+            grid-row: span 2;
+        } 
+        .page.sampel .konten img.portrait{
+            grid-row: span 2;
+        } 
+        .back-btn{
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgb(255, 126, 126);
+            right: 0;
+            z-index: 5;
+            color: white;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(0);
+        }
+        .back-btn.aktif{
+            transform: scale(1);
+        }
+        @media only screen and (max-width: 650px) {
+            .karakter{
+                width: 200px;
+                height: 200px;
+                top: -143px;
+                right: 15px;
+            }
+            header{
+                height: 25%;
+            }
+            main{
+            height: 70%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-btn">✕</div>
+
+        <header>
+            <!-- <img src="header.png" alt=""> -->
+        </header>
+        <main>
+            <div class="dialog">
+                <div class="head">arci</div>
+                <div class="main">
+                    <p class="teks">Selamat datang!<br>Saya Arci, ada yang bisa saya bantu?</p>
+                    <div class="jawaban">
+                        <!-- <div class="jawab nama">nama saya, <span class="nama">
+                            <input type="text" placeholder="..." id="nama">
+                        </span></div>
+                        <div class="jawab">Sok asik lu bang</div>
+                        <div class="jawab">TBL </div> -->
+                        <div class="jawab" data-id="sampel-page">Lihat sampel komisi</div>
+                        <div class="jawab" data-id="harga-page">Harga dan ketentuan</div>
+                        <div class="jawab" data-id="dd-page">Do & don't</div>
+                        <div class="jawab" data-id="promo-page">Promo</div>
+                    </div>
+                    <!-- <div class="panah"></div>
+                    <div class="nb">*tekan segitiga untuk lanjut</div> -->
+                </div>
+                <div class="karakter"></div>
+            </div>
+            <!-- <div class="karakter">
+            </div> -->
+        </main>
+        <div class="page sampel" id="sampel-page" style="z-index: 4;">
+            <!-- <div class="judul">sampel</div> -->
+            <!-- <div class="konten">
+                <img src="sampel/1.jpeg" alt="" class="large">
+                <img src="sampel/2.jpeg" alt="" class="portrait">
+                <img src="sampel/3.jpeg" alt="" class="small">
+            </div> -->
+            Maaf halaman ini dalam pengembangan. Saat ini Arci masih berfokus menyelesaikan sampel" agar bisa segera membuka komisi.<br><br>
+        Sorry this page is under development. At this time I still finishing arts sample so I can open for commission soon.<br><br>
+        
+        
+        --Arci--<br>
+        
+        </div>
+        <div class="page" id="harga-page">
+            Maaf halaman ini dalam pengembangan. Saat ini Arci masih berfokus menyelesaikan sampel" agar bisa segera membuka komisi.<br><br>
+        Sorry this page is under development. At this time I still finishing arts sample so I can open for commission soon.<br><br>
+        
+        
+        --Arci--<br>
+        
+        </div>
+        
+        <div class="page" id="dd-page">Maaf halaman ini dalam pengembangan. Saat ini Arci masih berfokus menyelesaikan sampel" agar bisa segera membuka komisi.<br><br>
+            Sorry this page is under development. At this time I still finishing arts sample so I can open for commission soon.<br><br>
+            
+            
+            --Arci--<br>
+            <a class="back">back</a>
+
+        </div>
+        <div class="page" id="promo-page">
+            Maaf halaman ini dalam pengembangan. Saat ini Arci masih berfokus menyelesaikan sampel" agar bisa segera membuka komisi.<br>
+        Sorry this page is under development. At this time I still finishing arts sample so I can open for commission soon.<br><br>
+        
+        
+        --Arci--<br>
+        
+        </div>
+    </div>
+    <script>
+        const allJawaban = document.querySelectorAll('.jawab');
+        const nama = document.querySelector('#nama');
+        const allPage = document.querySelectorAll('.page');
+        const backBtn = document.querySelector('.back-btn');
+        backBtn.addEventListener('click',()=>{
+            allPage.forEach(el=>{
+                el.classList.remove('page-aktif');
+            })
+            backBtn.classList.remove('aktif');
+        })
+        allJawaban.forEach(el=>{
+            el.addEventListener('click', function(){
+                const pageID = el.dataset.id;
+                // console.log(page);
+                const page = document.querySelector('#'+pageID);
+                // console.log(page);
+                allPage.forEach(e=>{
+                    e.classList.remove('page-aktif');
+                })
+                page.classList.add('page-aktif');
+                backBtn.classList.add('aktif');
+            })
+        })
+        const allBack = document.querySelectorAll('.back');
+        allBack.forEach(el=>{
+            el.addEventListener('click',()=>{
+                const allPage = document.querySelectorAll('.page');
+                allPage.forEach(e=>{
+                    e.classList.remove('page-aktif');
+                })
+            })
+        })
+    </script>
+</body>
+</html>
